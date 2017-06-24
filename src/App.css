@@ -9,7 +9,12 @@ img {
   list-style-type: none;
 }
 .sortable li {
+  padding: 3px 4px;
   cursor: grab;
+  margin-bottom: 2px;
+}
+.sortable select {
+  float: right;
 }
 .left,
 .right {
@@ -20,12 +25,17 @@ img {
 input[type="file"] {
   display: none;
 }
-.file-upload {
+.file-upload,
+.validate {
   background-color: #08ac69;
-  margin: 40px;
+  margin: 20px;
   border: 1px solid #ccc;
   display: inline-block;
   padding: 8px 14px;
   cursor: pointer;
   color: white;
+}
+
+.final-json {
+  padding: 20px;
 }
