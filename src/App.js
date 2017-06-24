@@ -1,3 +1,4 @@
+/* global $, hljs */
 import React, { Component } from 'react';
 import Request from 'superagent';
 import config from './.config.js';
@@ -71,10 +72,10 @@ class App extends Component {
   onValidate = (event) => {
     var json_formated = [];
 
-    window.$('.sortable li').each(function(){
+    $('.sortable li').each(function(){
       var elem = {};
-      elem.type = window.$(this).children('select').val();
-      elem.text = window.$(this)[0].innerText;
+      elem.type = $(this).children('select').val();
+      elem.text = $(this)[0].innerText;
       json_formated.push(elem);
     });
     this.setState({ finalJson: json_formated });
@@ -87,8 +88,18 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    window.$('.sortable').sortable();
-    window.$('.sortable').disableSelection();
+    $('.sortable').sortable();
+    $('.sortable').disableSelection();
+  }
+
+  renderFinalJson() {
+    const json: string = JSON.stringify(this.state.finalJson, null, 1);
+    const html: string = hljs.highlight('json', json).value;
+    return (
+      <div className="final-json">
+        <pre><code dangerouslySetInnerHTML={{__html: html}} /></pre>
+      </div>
+    );
   }
 
   render() {
@@ -111,10 +122,7 @@ class App extends Component {
           )}
         </div>
         <div className="right">
-          {/* TODO: Json prettify */}
-          {this.state.finalJson ? (
-            <div className="final-json">{JSON.stringify(this.state.finalJson, null, 2)}</div>
-          ) : (
+          {this.state.finalJson ? this.renderFinalJson() : (
             <div>
               <ul className="sortable">
                 {Object.keys(this.state.json).map((key,i) =>
