@@ -11,7 +11,8 @@
     "react": "^15.5.4",
     "react-addons-css-transition-group": "^15.5.2",
     "react-dom": "^15.5.4",
-    "semantic-ui-react": "^0.68.3"
+    "semantic-ui-react": "^0.68.3",
+    "superagent": "^3.5.2"
   },
   "devDependencies": {
     "autoprefixer": "6.7.2",
