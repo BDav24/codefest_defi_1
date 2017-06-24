@@ -38,6 +38,10 @@ input[type="file"] {
   color: white;
 }
 
+.cropper-modal {
+  opacity: 0;
+}
+
 .final-json {
   padding: 20px;
 }

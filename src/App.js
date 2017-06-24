@@ -1,10 +1,9 @@
-/* global $, hljs */
+/* global $, Cropper, hljs */
 import React, { Component } from 'react';
 import Request from 'superagent';
 import config from './.config.js';
 import jsonApiMock from './components/test.json';
 import * as Spinner from './Spinner';
-
 import './App.css';
 
 const mock = true;
@@ -48,11 +47,31 @@ class App extends Component {
     reader.readAsDataURL(file);
   }
 
+  initCropper = () => {
+    var image = $('.preview-img')[0];
+    new Cropper(image, {
+      movable: false,
+      zoomable: false,
+      autoCrop: false,
+      background: false,
+      crop: function(e) {
+        console.log(e.detail.x);
+        console.log(e.detail.y);
+        console.log(e.detail.width);
+        console.log(e.detail.height);
+        console.log(e.detail.rotate);
+        console.log(e.detail.scaleX);
+        console.log(e.detail.scaleY);
+      }
+    });
+  };
+
   onImageChanged = (data) => {
     Spinner.start();
     this.encodeImageFileAsURL((base64) => {
       this.base64 = base64;
       this.setState({ imageSelected: true });
+      this.initCropper();
       Request
         .post(`https://vision.googleapis.com/v1/images:annotate?key=${config.gkey}`)
         .send({
@@ -84,6 +103,7 @@ class App extends Component {
   componentDidMount() {
     if (mock) {
       this.setState({ json: this.formatJsonFromApi(jsonApiMock) });
+      this.initCropper();
     }
   }
 
@@ -111,7 +131,7 @@ class App extends Component {
             : null
           }
           {this.state.imageSelected
-            ? <img src={this.base64} alt="Preview" className="preview-img" />
+            ? <div><img src={this.base64} alt="Preview" className="preview-img" /></div>
             : null
           }
           {mock ? null : (
