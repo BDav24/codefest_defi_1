@@ -55,8 +55,27 @@ class App extends Component {
     });
   };
 
+  /*onElementTypeChanged = (event) => {
+  	console.log(event.target.value, window.$(event.target).data('element'));
+
+
+  };*/
+
+  onValidate = (event) => {
+  	var json_formated = [];
+
+  	window.$('.sortable li').each(function(){
+		var elem = {};
+		elem.type = window.$(this).children('select').val();
+		elem.text = window.$(this)[0].innerText;
+		console.log(elem);
+		json_formated.push(elem);
+	});
+  	console.log(json_formated);
+  };
+
   componentDidMount() {
-    if (mock) {
+  	if (mock) {
       this.setState({ json: this.formatJsonFromApi(jsonApiMock) });
     }
   }
@@ -86,9 +105,21 @@ class App extends Component {
               <li key={i} className="ui-state-default">
                 <span className="ui-icon ui-icon-arrowthick-2-n-s"></span>
                 {this.state.json[key].text}
+                <select onChange={this.onElementTypeChanged} defaultValue="p" data-element={i}>
+                  <optgroup label="Titres">
+                    <option value="h1">Titre de niveau 1</option>
+                    <option value="h2">Titre de niveau 2</option>
+                    <option value="h3">Titre de niveau 3</option>
+                    <option value="h4">Titre de niveau 4</option>
+                    <option value="h5">Titre de niveau 5</option>
+                    <option value="h6">Titre de niveau 6</option>
+                  </optgroup>
+                  <option value="p">Paragraphe</option>
+                </select>
               </li>
             )}
           </ul>
+		  <button onClick={this.onValidate}>Valider</button>
         </div>
       </div>
     );
