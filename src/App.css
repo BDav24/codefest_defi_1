@@ -1,3 +1,18 @@
 img {
   max-width: 100%;
 }
+
+.ui-draggable, .ui-droppable {
+  background-position: top;
+}
+.sortable {
+  list-style-type: none;
+}
+.sortable li {
+  cursor: grab;
+}
+.left,
+.right {
+  float: left;
+  width: 50%;
+}

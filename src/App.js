@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Request from 'superagent';
 import config from './.config.js';
 import jsonApiMock from './components/test.json';
+import * as Spinner from './Spinner';
 
 import './App.css';
 
@@ -11,7 +12,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
       imageSelected: false,
       json: {}
     }
@@ -35,6 +35,7 @@ class App extends Component {
   }
 
   onImageChanged = (data) => {
+    Spinner.start();
     this.encodeImageFileAsURL((base64) => {
       this.base64 = base64;
       this.setState({ imageSelected: true });
@@ -47,7 +48,8 @@ class App extends Component {
           }]
         })
         .end((error, res) => {
-          this.setState({ loading: false, json: this.formatJsonFromApi(res.body.responses[0]) });
+          Spinner.done();
+          this.setState({ json: this.formatJsonFromApi(res.body.responses[0]) });
         })
       ;
     });
@@ -55,9 +57,7 @@ class App extends Component {
 
   componentDidMount() {
     if (mock) {
-      this.setState({ loading: false, json: this.formatJsonFromApi(jsonApiMock) });
-    } else {
-      this.setState({ loading: false });
+      this.setState({ json: this.formatJsonFromApi(jsonApiMock) });
     }
   }
 
@@ -69,19 +69,27 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {mock
-          ? <img src="/img/Example_01_deux_colonnes.png" alt="Preview" className="preview-img" />
-          : this.state.imageSelected
+        <div className="left">
+          {mock && !this.state.imageSelected
+            ? <img src="/img/Example_01_deux_colonnes.png" alt="Preview" className="preview-img" />
+            : null
+          }
+          {this.state.imageSelected
             ? <img src={this.base64} alt="Preview" className="preview-img" />
-            : <input type="file" id="inputfile" onChange={this.onImageChanged} />
-        }
-        <ul className="sortable">
-          {Object.keys(this.state.json).map((key,i) =>
-            <li key={i} className="ui-state-default">
-              <span className="ui-icon ui-icon-arrowthick-2-n-s"></span> {this.state.json[key].text}
-            </li>
-          )}
-        </ul>
+            : null
+          }
+          {mock ? null : <input type="file" id="inputfile" onChange={this.onImageChanged} />}
+        </div>
+        <div className="right">
+          <ul className="sortable">
+            {Object.keys(this.state.json).map((key,i) =>
+              <li key={i} className="ui-state-default">
+                <span className="ui-icon ui-icon-arrowthick-2-n-s"></span>
+                {this.state.json[key].text}
+              </li>
+            )}
+          </ul>
+        </div>
       </div>
     );
   }
