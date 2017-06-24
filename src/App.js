@@ -18,7 +18,7 @@ class App extends Component {
   render() {
     return (
       <div className="App" style={{ width: '100%', textAlign: 'center' }}>
-        <img src="/img/Example_01_deux_colonnes.png" alt="" style={{ width: '60%' }} />
+        <img src="/img/Example_01_deux_colonnes.png" alt="" id="testImg" style={{ width: '60%' }} />
       </div>
     );
   }
