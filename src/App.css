@@ -7,11 +7,13 @@ img {
 }
 .sortable {
   list-style-type: none;
+  margin: 0;
+  padding: 20px;
 }
 .sortable li {
-  padding: 3px 4px;
+  padding: 5px 4px;
   cursor: grab;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 .sortable select {
   float: right;

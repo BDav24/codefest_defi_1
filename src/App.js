@@ -25,7 +25,7 @@ class App extends Component {
     var current = '';
     for (var i in splittedText) {
       var textChunk = splittedText[i];
-      if (textChunk.match(/^[a-z\u00C0-\u017F]/g)) {
+      if (textChunk.match(/^[a-z\u00C0-\u017F]/g)) { // a-z + accents
         current += ' ' + textChunk;
       } else {
         if (current.length > 0) mergedText.push(current);
