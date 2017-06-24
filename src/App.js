@@ -97,7 +97,12 @@ class App extends Component {
             ? <img src={this.base64} alt="Preview" className="preview-img" />
             : null
           }
-          {mock ? null : <input type="file" id="inputfile" onChange={this.onImageChanged} />}
+          {mock ? null : (
+            <div>
+              <label htmlFor="inputfile" className="file-upload">Upload your image</label>
+              <input type="file" id="inputfile" onChange={this.onImageChanged} />
+            </div>
+          )}
         </div>
         <div className="right">
           <ul className="sortable">
