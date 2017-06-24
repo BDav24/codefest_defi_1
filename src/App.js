@@ -19,20 +19,18 @@ class App extends Component {
   }
 
   formatJsonFromApi(json) {
-    // TODO: try to merge lines
     var splittedText = json.fullTextAnnotation.text.split('\n');
     var mergedText = [];
-    var tempText = "";
-    for(var key in splittedText){
-		var textChunk = splittedText[key];
-		console.log(textChunk,textChunk.match(/^[a-z]/g) === null);
-		if(textChunk.match(/^[a-z]/g) === null){
-			mergedText.push(textChunk);
-			tempText = "";
-		} else {
-			tempText += " "+textChunk;
-		}
-	}
+    var current = '';
+    for (var i in splittedText) {
+      var textChunk = splittedText[i];
+      if (textChunk.match(/^[a-z\u00C0-\u017F]/g)) {
+        current += ' ' + textChunk;
+      } else {
+        if (current.length > 0) mergedText.push(current);
+        current = textChunk;
+      }
+    }
     return mergedText.map(function(chunk) {
       return {
         type: 'p',
