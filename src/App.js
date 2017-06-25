@@ -5,7 +5,7 @@ import config from './.config.js';
 import jsonApiMock from './components/test.json';
 import './App.css';
 
-const mock = true;
+const mock = false;
 
 class App extends Component {
   constructor(props) {
