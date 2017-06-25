@@ -1,3 +1,13 @@
+.welcome {
+  padding: 40px;
+}
+.welcome .example {
+  width: 400px;
+}
+.welcome .left h2 {
+  margin: 0;
+}
+
 img {
   max-width: 100%;
 }

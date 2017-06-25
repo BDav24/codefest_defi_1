@@ -125,6 +125,36 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        {mock || this.state.imageSelected ? null : (
+          <div className="welcome">
+            <div>
+              <div className="left">
+                <h1>Welcome on UpScribers!</h1>
+                This project is aiming to help disable people around the world to access texbooks
+                content.
+                <br /><br />
+                This tool will help in three steps:
+                <ol>
+                  <li>Extract text and graphics from an image</li>
+                  <li>Edit the document</li>
+                  <li>Share it</li>
+                </ol>
+                <br /><br />
+                <h2>First step:</h2>
+                {mock ? null : (
+                  <div>
+                    <label htmlFor="inputfile" className="file-upload">Upload your image</label>
+                    <input type="file" id="inputfile" onChange={this.onImageChanged} />
+                  </div>
+                )}
+              </div>
+              <div className="right">
+                <h2>Text analysis preview:</h2>
+                <img src="/img/example.png" alt="Example" className="example" />
+              </div>
+            </div>
+          </div>
+        )}
         <div className="left">
           {mock && !this.state.imageSelected
             ? <img src="/img/Example_01_deux_colonnes.png" alt="Preview" className="preview-img" />
@@ -134,12 +164,6 @@ class App extends Component {
             ? <div><img src={this.base64} alt="Preview" className="preview-img" /></div>
             : null
           }
-          {mock ? null : (
-            <div>
-              <label htmlFor="inputfile" className="file-upload">Upload your image</label>
-              <input type="file" id="inputfile" onChange={this.onImageChanged} />
-            </div>
-          )}
         </div>
         <div className="right">
           {this.state.finalJson ? this.renderFinalJson() : (
@@ -163,7 +187,10 @@ class App extends Component {
                   </li>
                 )}
               </ul>
-              <a className="validate" onClick={this.onValidate}>Valider</a>
+              {Object.keys(this.state.json).length > 0
+                ? <a className="validate" onClick={this.onValidate}>Valider</a>
+                : null
+              }
             </div>
           )}
         </div>
