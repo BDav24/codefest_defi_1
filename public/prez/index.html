@@ -6,6 +6,7 @@
     <style>
       * {
         font-family: 'Roboto', sans-serif !important;
+        color: white;
       }
       .first {
         position: absolute;
@@ -18,6 +19,20 @@
         font-size: 60px;
       }
 
+      .reveal section .summary img {
+        height: 42px;
+        margin: 0 20px;
+        border: none;
+        background: transparent;
+        box-shadow: none;
+      }
+      .summary {
+        font-size: 32px  !important;
+      }
+
+      img.google-vision {
+        height: 90%;
+      }
       img.ray {
         height: 70%;
       }
@@ -36,11 +51,54 @@
         </section>
 
         <section data-background="#292a3f">
-          Team
+          1 - Team
+          <br><br><br>
+          <table>
+            <tbody>
+              <tr>
+                <td>Mathias Ducancel</td>
+                <td>Développeur web en stage chez Sigfox</td>
+              </tr>
+              <tr>
+                <td>Pierre-Henri Gomez</td>
+                <td>Développeur web en alternance</td>
+              </tr>
+              <tr>
+                <td>David Brown</td>
+                <td>Dev &amp; co-fondateur de www.notif.me</td>
+              </tr>
+            </tbody>
+          </table>
         </section>
 
         <section data-background="#292a3f">
-          Optique
+          2 - Optique
+          <br><br><br>
+          <ul>
+            <li>Automatisation maximale<br><br></li>
+            <li class="fragment">
+              Prototype fonctionnel plutôt qu'optimisé :
+              <ul>
+                <li class="fragment">Toutes les features, certaines basiques</li>
+                <li class="fragment">Qualité de code de prototype</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <section data-background="#292a3f">
+          3 - Technos
+          <br><br><br>
+          <ul>
+            <li>React</li>
+            <li>jQuery</li>
+            <li>cropperjs<br><br></li>
+            <li>Google vision</li>
+          </ul>
+        </section>
+
+        <section data-background="#292a3f">
+          <img class="google-vision" src="google-vision.png" />
         </section>
 
         <section data-background="#292a3f">
@@ -48,7 +106,37 @@
         </section>
 
         <section data-background="#292a3f">
-          Bilan
+          5 - Bilan
+          <br><br>
+          <ol class="summary">
+            <li>
+              Dessiner les zones :
+              <ul>
+                <li class="fragment">Texte : Automatique <img src="double-green-check.png" /></li>
+                <li class="fragment">Image : Une seule zone <img src="orange-check.png" /></li>
+              </ul>
+            </li>
+            <li class="fragment">
+              Choisir le type des zones :
+              <ul>
+                <li class="fragment">Texte &amp; Image : Automatique <img src="green-check.png" /></li>
+              </ul>
+            </li>
+            <li class="fragment">
+              Edition :
+              <ul>
+                <li class="fragment">Ordonner <img src="green-check.png" /></li>
+                <li class="fragment">Niveau des titres <img src="green-check.png" /></li>
+              </ul>
+            </li>
+            <li class="fragment">
+              Analyse :
+              <ul>
+                <li class="fragment">OCR multi-langages <img src="double-green-check.png" /></li>
+                <li class="fragment">Formattage du JSON <img src="green-check.png" /></li>
+              </ul>
+            </li>
+          </ol>
         </section>
 
         <section data-background="#292a3f">
@@ -59,6 +147,25 @@
 
         <section data-background="#292a3f">
           Annexe 1 : API Google
+          <br><br><br>
+          <ul>
+            <li>
+              Inconvénients :
+              <ul>
+                <li>Payant (1.5$ / 1000 requêtes)</li>
+                <li>Blocs parfois mal détectés</li>
+              </ul>
+              <br>
+            </li>
+            <li>
+              Avantages :
+              <ul>
+                <li>Détection automatique des blocs</li>
+                <li>OCR performante et multi-langues</li>
+                <li>Va s'améliorer au fil du temps</li>
+              </ul>
+            </li>
+          </ul>
         </section>
 
       </div>
