@@ -2,23 +2,32 @@
   padding: 40px;
 }
 .welcome .example {
-  width: 400px;
+  width: 90%;
 }
 .welcome .left h2 {
   margin: 0;
 }
 
+.image-preview {
+  text-align: center;
+}
+#image-chunk-preview {
+  width: 100%;
+  margin: 0 auto;
+}
+
 img {
   max-width: 100%;
 }
-
 .ui-draggable, .ui-droppable {
   background-position: top;
+}
+.container {
+  padding: 20px;
 }
 .sortable {
   list-style-type: none;
   margin: 0;
-  padding: 20px;
 }
 .sortable li {
   padding: 5px 4px;
@@ -38,7 +47,8 @@ input[type="file"] {
   display: none;
 }
 .file-upload,
-.validate {
+.validate,
+.crop-step-validate {
   background-color: #08ac69;
   margin: 20px;
   border: 1px solid #ccc;
@@ -48,6 +58,12 @@ input[type="file"] {
   color: white;
 }
 
+.crop-step {
+  display: none;
+}
+.crop-step-validate {
+  display: none;
+}
 .cropper-modal {
   opacity: 0;
 }

@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import Request from 'superagent';
 import config from './.config.js';
 import jsonApiMock from './components/test.json';
-import * as Spinner from './Spinner';
 import './App.css';
 
 const mock = true;
@@ -13,6 +12,7 @@ class App extends Component {
     super(props);
     this.state = {
       imageSelected: false,
+      cropStep: false,
       json: {},
       finalJson: null
     }
@@ -48,26 +48,23 @@ class App extends Component {
   }
 
   initCropper = () => {
+    $('.crop-step').css('display', 'block');
     var image = $('.preview-img')[0];
-    new Cropper(image, {
+    var cropper = new Cropper(image, {
       movable: false,
       zoomable: false,
       autoCrop: false,
       background: false,
-      crop: function(e) {
-        console.log(e.detail.x);
-        console.log(e.detail.y);
-        console.log(e.detail.width);
-        console.log(e.detail.height);
-        console.log(e.detail.rotate);
-        console.log(e.detail.scaleX);
-        console.log(e.detail.scaleY);
+      crop: (e) => {
+        var canvas = cropper.getCroppedCanvas();
+        this.croppedImage = canvas.toDataURL();
+        $('#image-chunk-preview').html($('<img>').attr('src', this.croppedImage));
+        $('.crop-step-validate').css('display', 'inline-block');
       }
     });
   };
 
   onImageChanged = (data) => {
-    Spinner.start();
     this.encodeImageFileAsURL((base64) => {
       this.base64 = base64;
       this.setState({ imageSelected: true });
@@ -81,20 +78,30 @@ class App extends Component {
           }]
         })
         .end((error, res) => {
-          Spinner.done();
-          this.setState({ json: this.formatJsonFromApi(res.body.responses[0]) });
+          this.json = this.formatJsonFromApi(res.body.responses[0]);
         })
       ;
     });
   };
 
+  onValidateImageChunkValidate = () => {
+    $('.crop-step').css('display', 'none');
+    this.json.push({type:'img', src: this.croppedImage});
+    this.setState({ json: this.json });
+  };
+
   onValidate = (event) => {
     var json_formated = [];
+    const croppedImage = this.croppedImage;
 
     $('.sortable li').each(function(){
       var elem = {};
       elem.type = $(this).children('select').val();
-      elem.text = $(this)[0].innerText;
+      if (elem.type === 'img') {
+        elem.src = croppedImage;
+      } else {
+        elem.text = $(this)[0].innerText;
+      }
       json_formated.push(elem);
     });
     this.setState({ finalJson: json_formated });
@@ -102,7 +109,7 @@ class App extends Component {
 
   componentDidMount() {
     if (mock) {
-      this.setState({ json: this.formatJsonFromApi(jsonApiMock) });
+      this.json = this.formatJsonFromApi(jsonApiMock);
       this.initCropper();
     }
   }
@@ -166,33 +173,53 @@ class App extends Component {
           }
         </div>
         <div className="right">
-          {this.state.finalJson ? this.renderFinalJson() : (
-            <div>
-              <ul className="sortable">
-                {Object.keys(this.state.json).map((key,i) =>
-                  <li key={i} className="ui-state-default">
-                    <span className="ui-icon ui-icon-arrowthick-2-n-s"></span>
-                    {this.state.json[key].text}
-                    <select onChange={this.onElementTypeChanged} defaultValue="p" data-element={i}>
-                      <optgroup label="Titres">
-                        <option value="h1">Titre de niveau 1</option>
-                        <option value="h2">Titre de niveau 2</option>
-                        <option value="h3">Titre de niveau 3</option>
-                        <option value="h4">Titre de niveau 4</option>
-                        <option value="h5">Titre de niveau 5</option>
-                        <option value="h6">Titre de niveau 6</option>
-                      </optgroup>
-                      <option value="p">Paragraphe</option>
-                    </select>
-                  </li>
-                )}
-              </ul>
-              {Object.keys(this.state.json).length > 0
-                ? <a className="validate" onClick={this.onValidate}>Valider</a>
-                : null
-              }
+          <div className="container">
+            <div className="crop-step">
+              <div className="image-preview">
+                <h3>Step 2: Please select graphics in your image</h3>
+                <div id="image-chunk-preview"></div>
+                <a className="crop-step-validate" onClick={this.onValidateImageChunkValidate}>
+                  Validate
+                </a>
+              </div>
             </div>
-          )}
+            {this.state.finalJson ? this.renderFinalJson() : (
+              <div>
+                <ul className="sortable">
+                  {Object.keys(this.state.json).map((key, i) =>
+                    <li key={i} className="ui-state-default">
+                      <span className="ui-icon ui-icon-arrowthick-2-n-s"></span>
+                      {this.state.json[key].type === 'img'
+                        ? <img src={this.state.json[key].src} alt="haha" />
+                        : this.state.json[key].text
+                      }
+                      {this.state.json[key].type === 'img' ? (
+                        <select defaultValue="img" disabled>
+                          <option value="img">Image</option>
+                        </select>
+                      ) : (
+                        <select onChange={this.onElementTypeChanged} defaultValue="p" data-element={i}>
+                          <optgroup label="Titres">
+                            <option value="h1">Titre de niveau 1</option>
+                            <option value="h2">Titre de niveau 2</option>
+                            <option value="h3">Titre de niveau 3</option>
+                            <option value="h4">Titre de niveau 4</option>
+                            <option value="h5">Titre de niveau 5</option>
+                            <option value="h6">Titre de niveau 6</option>
+                          </optgroup>
+                          <option value="p">Paragraphe</option>
+                        </select>
+                      )}
+                    </li>
+                  )}
+                </ul>
+                {Object.keys(this.state.json).length > 0
+                  ? <a className="validate" onClick={this.onValidate}>Valider</a>
+                  : null
+                }
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );
