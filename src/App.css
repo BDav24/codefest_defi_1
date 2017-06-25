@@ -37,10 +37,16 @@ img {
 .sortable select {
   float: right;
 }
+.sortable li.ui-state-default {
+  background: #fefefe;
+}
 .left,
 .right {
   float: left;
   width: 50%;
+}
+.clear {
+  clear: both;
 }
 
 input[type="file"] {

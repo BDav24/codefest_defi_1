@@ -56,10 +56,12 @@ class App extends Component {
       autoCrop: false,
       background: false,
       crop: (e) => {
-        var canvas = cropper.getCroppedCanvas();
-        this.croppedImage = canvas.toDataURL();
-        $('#image-chunk-preview').html($('<img>').attr('src', this.croppedImage));
-        $('.crop-step-validate').css('display', 'inline-block');
+        if (e.detail.x !== 0 || e.detail.y !== 0 || e.detail.width !== 0 || e.detail.height !== 0) {
+          var canvas = cropper.getCroppedCanvas();
+          this.croppedImage = canvas.toDataURL();
+          $('#image-chunk-preview').html($('<img>').attr('src', this.croppedImage));
+          $('.crop-step-validate').css('display', 'inline-block');
+        }
       }
     });
   };
@@ -210,6 +212,7 @@ class App extends Component {
                           <option value="p">Paragraphe</option>
                         </select>
                       )}
+                      <div className="clear"></div>
                     </li>
                   )}
                 </ul>
